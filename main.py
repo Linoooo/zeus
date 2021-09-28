@@ -11,6 +11,10 @@ from sklearn.feature_extraction.text import CountVectorizer
 from keras.models import load_model
 from keras.preprocessing.sequence import pad_sequences
 
+# If yu want to use Text to SPeech
+import pyttsx3
+
+
 # nltk.download('punkt')
 # nltk.download('stopwords')
 
@@ -319,11 +323,22 @@ if __name__ == "__main__":
     # model = load_model("B:/Documents/Master AI/INFOMAIR/venv/src/saved models/feedforward")
 
     state = 2
-    print("Welcome to Zeus bot, let me help you suggest a restaurant, do you have any preferences?")
+    if tts:
+          engine = pyttsx3.init()
+          engine.say(("Welcome to Zeus bot, let me help you suggest a restaurant, do you have any preferences?")
+          engine.runAndWait()
+    else:  
+          print("Welcome to Zeus bot, let me help you suggest a restaurant, do you have any preferences?")
     while True:
 
         user_input = input().lower()
         if user_input == "quit":
             break
         state, reply, preferences = dialog_management(state, user_input, preferences)
-        print(reply)
+        if tts:
+          engine = pyttsx3.init()
+          engine.say(reply)
+          engine.runAndWait()
+          
+        else:
+          print(reply)
